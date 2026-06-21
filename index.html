@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cyber Sentinel</title>
+    <style>
+        /* ========== PAGE STYLING ========== */
+        body {
+            font-family: Arial, sans-serif;
+            background: #0a0a2e;
+            color: white;
+            padding: 30px;
+            max-width: 700px;
+            margin: auto;
+        }
+
+        h1 {
+            color: #ff6b35;
+            text-align: center;
+            font-size: 40px;
+            text-shadow: 0 0 20px rgba(255,107,53,0.3);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #aaa;
+            font-size: 18px;
+        }
+
+        /* ========== QUICK EXAMPLE BUTTONS ========== */
+        .example-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+            justify-content: center;
+        }
+
+        .example-buttons button {
+            width: auto;
+            padding: 8px 15px;
+            font-size: 14px;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            margin-top: 0;
+            transition: 0.3s;
+        }
+
+        .example-buttons button:hover {
+            transform: scale(1.05);
+        }
+
+        .btn-bank { background: #ff4444; }
+        .btn-scholar { background: #ff8800; }
+        .btn-prize { background: #ff6600; }
+        .btn-safe { background: #00cc00; }
+
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 15px;
+            background: #1a1a3e;
+            color: white;
+            border: 2px solid #333;
+            border-radius: 10px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background: #ff6b35;
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 10px;
+            font-size: 22px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+            width: 100%;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #ff8c5a;
+            transform: scale(1.02);
+            box-shadow: 0 5px 30px rgba(255,107,53,0.4);
+        }
+
+        #result {
+            margin-top: 25px;
+            padding: 0;
+            border-radius: 15px;
+            min-height: 100px;
+        }
+
+        /* ========== RESULT BOX STYLES ========== */
+        .result-danger {
+            background: rgba(255, 0, 0, 0.15);
+            border: 3px solid #ff0000;
+            padding: 20px;
+            border-radius: 15px;
+            animation: pulse-red 1.5s infinite;
+        }
+
+        .result-warning {
+            background: rgba(255, 165, 0, 0.15);
+            border: 3px solid #ff8c00;
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+        .result-safe {
+            background: rgba(0, 255, 0, 0.08);
+            border: 3px solid #00cc00;
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+        /* ========== ANIMATIONS ========== */
+        @keyframes pulse-red {
+            0% { box-shadow: 0 0 10px rgba(255,0,0,0.3); }
+            50% { box-shadow: 0 0 30px rgba(255,0,0,0.6); }
+            100% { box-shadow: 0 0 10px rgba(255,0,0,0.3); }
+        }
+
+        /* ========== FOOTER ========== */
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+            margin-top: 30px;
+            border-top: 1px solid #222;
+        }
+
+        .footer a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+
+        .helpline {
+            color: #ff6b35;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        /* ========== SCAM BADGE ========== */
+        .badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin: 3px;
+        }
+
+        .badge-red {
+            background: rgba(255,0,0,0.3);
+            color: #ff6666;
+            border: 1px solid #ff0000;
+        }
+
+        .badge-orange {
+            background: rgba(255,165,0,0.3);
+            color: #ffaa33;
+            border: 1px solid #ff8c00;
+        }
+
+        .badge-green {
+            background: rgba(0,255,0,0.2);
+            color: #66ff66;
+            border: 1px solid #00cc00;
+        }
+
+        /* ========== REPORT BUTTON ========== */
+        .report-btn {
+            background: #ff0000;
+            width: auto;
+            padding: 12px 30px;
+            font-size: 16px;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+            margin-top: 0;
+        }
+
+        .report-btn:hover {
+            background: #cc0000;
+            transform: scale(1.05);
+        }
+
+        .copy-btn {
+            background: #333;
+            padding: 10px 20px;
+            font-size: 14px;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .copy-btn:hover {
+            background: #555;
+            transform: scale(1.05);
+        }
+
+        .report-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* ========== PROGRESS BAR ========== */
+        .progress-bar {
+            background: #222;
+            border-radius: 10px;
+            padding: 3px;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 30px;
+            border-radius: 8px;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            line-height: 30px;
+            transition: width 0.5s ease;
+        }
+
+        .risk-score-text {
+            font-size: 20px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ========== HEADER ========== -->
+    <h1>🇮🇳 Cyber Scam Detector</h1>
+    <p class="subtitle">Paste any suspicious message and check if it's a scam</p>
+
+    <!-- ========== QUICK EXAMPLE BUTTONS ========== -->
+    <div class="example-buttons">
+        <button onclick="loadExample(1)" class="btn-bank">🏦 Bank Scam</button>
+        <button onclick="loadExample(2)" class="btn-scholar">🎓 Scholarship Scam</button>
+        <button onclick="loadExample(3)" class="btn-prize">🎁 Prize Scam</button>
+        <button onclick="loadExample(4)" class="btn-safe">✅ Safe Message</button>
+    </div>
+
+    <!-- ========== INPUT AREA ========== -->
+    <textarea id="message" rows="5" cols="50">
+Your SBI account is blocked. Click: sbi-update.xyz
+    </textarea>
+    <br>
+    <button onclick="checkMessage()">🔍 Check for Scam</button>
+
+    <!-- ========== RESULT AREA ========== -->
+    <div id="result"></div>
+
+    <!-- ========== REPORT BUTTON ========== -->
+    <div class="report-container">
+        <button onclick="reportScam()" class="report-btn">🚨 Report This Scam</button>
+    </div>
+
+    <!-- ========== FOOTER ========== -->
+    <div class="footer">
+        <p>📞 <span class="helpline">Cyber Crime Helpline: 1930</span></p>
+        <p>🌐 Report online: <a href="https://cybercrime.gov.in" target="_blank">cybercrime.gov.in</a></p>
+        <p style="font-size: 12px; margin-top: 15px;">Made with ❤️ in India 🇮🇳</p>
+    </div>
+
+    <!-- ========== JAVASCRIPT ========== -->
+    <script>
+        // ========================================
+        // FUNCTION: LOAD EXAMPLE
+        // ========================================
+        function loadExample(num) {
+            const examples = [
+                'Your SBI account is blocked. Click: sbi-update.xyz',
+                'National Scholarship - Pay ₹499 - Guaranteed Selection',
+                'Congratulations! You won ₹50,000! Click here now',
+                'I will meet you at 5pm for dinner'
+            ];
+            document.getElementById('message').value = examples[num - 1];
+            checkMessage(); // Auto-check
+        }
+
+        // ========================================
+        // FUNCTION: REPORT SCAM
+        // ========================================
+        function reportScam() {
+            let msg = document.getElementById('message').value;
+            let encodedMsg = encodeURIComponent(msg);
+            let url = 'https://cybercrime.gov.in/';
+            
+            // Open in new tab
+            window.open(url, '_blank');
+            
+            // Show alert
+            alert('📞 Also call 1930 to report cyber crime immediately!');
+        }
+
+        // ========================================
+        // FUNCTION: COPY RESULT
+        // ========================================
+        function copyResult() {
+            let resultText = document.getElementById('result').innerText;
+            navigator.clipboard.writeText(resultText).then(() => {
+                alert('✅ Result copied to clipboard! Share with friends!');
+            }).catch(() => {
+                alert('❌ Could not copy. Please select and copy manually.');
+            });
+        }
+
+        // ========================================
+        // FUNCTION: CHECK MESSAGE (MAIN)
+        // ========================================
+        function checkMessage() {
+            // ========================================
+            // 1. GET THE MESSAGE
+            // ========================================
+            let msg = document.getElementById('message').value;
+            let msgLower = msg.toLowerCase();
+            
+            // ========================================
+            // 2. INITIALIZE VARIABLES
+            // ========================================
+            let risk = 0;
+            let reasons = [];
+            
+            // ========================================
+            // 3. SCAM WORDS DETECTION
+            // ========================================
+            let scamWords = ['prize', 'winner', 'won', 'lottery', 'cashback', 
+                           'free', 'urgent', 'blocked', 'otp', 'password', 
+                           'bank', 'account', 'verify', 'click', 'pay', 
+                           'guaranteed', 'scholarship', 'registration', 
+                           'fee', 'credited', 'upi', 'aadhaar', 'pan',
+                           'refund', 'investment', 'crypto', 'bitcoin',
+                           'win', 'money', 'card', 'debit', 'credit',
+                           'scam', 'fraud', 'alert', 'security', 'suspend',
+                           'claim', 'offer', 'bonus', 'reward', 'gift',
+                           'exclusive', 'limited', 'today', 'hurry',
+                           'immediate', 'action', 'required', 'warning',
+                           'unauthorized', 'login', 'update', 'confirm'];
+            
+            for(let word of scamWords) {
+                if(msgLower.includes(word)) {
+                    risk = risk + 6;
+                    reasons.push('⚠️ Contains "' + word + '"');
+                }
+            }
+            
+            // ========================================
+            // 4. SUSPICIOUS DOMAINS
+            // ========================================
+            let domains = ['.xyz', '.click', '.top', '.loan', '.work', '.cc', '.info', '.site'];
+            for(let domain of domains) {
+                if(msgLower.includes(domain)) {
+                    risk = risk + 15;
+                    reasons.push('🔗 Suspicious domain: ' + domain);
+                }
+            }
+            
+            // ========================================
+            // 5. MONEY DETECTION
+            // ========================================
+            if(msgLower.includes('₹') || msgLower.includes('rs') || 
+               msgLower.includes('rupee') || msgLower.includes('money') ||
+               msgLower.includes('pay') || msgLower.includes('fee')) {
+                risk = risk + 10;
+                reasons.push('💰 Money/ Payment mentioned');
+            }
+            
+            // ========================================
+            // 6. URGENCY DETECTION
+            // ========================================
+            let urgencyWords = ['urgent', 'immediately', 'now', 'quickly', 'fast', 'hurry', 'today'];
+            for(let word of urgencyWords) {
+                if(msgLower.includes(word)) {
+                    risk = risk + 5;
+                    reasons.push('⏰ Urgency: "' + word + '"');
+                }
+            }
+            
+            // ========================================
+            // 7. BANK NAMES
+            // ========================================
+            let banks = ['sbi', 'hdfc', 'icici', 'axis', 'pnb', 'paytm', 'google pay', 'phonepe'];
+            for(let bank of banks) {
+                if(msgLower.includes(bank)) {
+                    risk = risk + 5;
+                    reasons.push('🏦 Bank mentioned: "' + bank + '"');
+                }
+            }
+            
+            // ========================================
+            // 8. PATTERN DETECTION
+            // ========================================
+            
+            // SCHOLARSHIP + PAYMENT = SCAM!
+            if(msgLower.includes('scholarship') && msgLower.includes('pay')) {
+                risk = risk + 20;
+                reasons.push('🎓🔴 SCHOLARSHIP SCAM: Payment requested');
+            }
+            
+            // BANK + BLOCKED = SCAM!
+            if((msgLower.includes('bank') || msgLower.includes('sbi')) && msgLower.includes('blocked')) {
+                risk = risk + 20;
+                reasons.push('🏦🔴 BANK SCAM: Account blocked threat');
+            }
+            
+            // WON + CLICK = SCAM!
+            if(msgLower.includes('won') && msgLower.includes('click')) {
+                risk = risk + 20;
+                reasons.push('🎁🔴 PRIZE SCAM: Won + Click link');
+            }
+            
+            // URGENCY + MONEY = SCAM!
+            if((msgLower.includes('urgent') || msgLower.includes('immediate')) && 
+               (msgLower.includes('money') || msgLower.includes('pay') || msgLower.includes('₹'))) {
+                risk = risk + 15;
+                reasons.push('🚨🔴 URGENCY SCAM: Money + Urgency');
+            }
+            
+            // FREE + CLICK = SCAM!
+            if(msgLower.includes('free') && msgLower.includes('click')) {
+                risk = risk + 15;
+                reasons.push('🎁🔴 FREE OFFER SCAM: Free + Click');
+            }
+            
+            // OTP + BANK = SCAM!
+            if(msgLower.includes('otp') && (msgLower.includes('bank') || msgLower.includes('sbi'))) {
+                risk = risk + 25;
+                reasons.push('🔐🔴 OTP SCAM: OTP + Bank mentioned');
+            }
+            
+            // AADHAAR + PAY = SCAM!
+            if(msgLower.includes('aadhaar') && msgLower.includes('pay')) {
+                risk = risk + 20;
+                reasons.push('🆔🔴 AADHAAR SCAM: Aadhaar + Payment');
+            }
+            
+            // ========================================
+            // 9. LIMIT RISK TO 100
+            // ========================================
+            if(risk > 100) risk = 100;
+            
+            // Remove duplicate reasons
+            let uniqueReasons = [...new Set(reasons)];
+            
+            // ========================================
+            // 10. GET RESULT DIV
+            // ========================================
+            let resultDiv = document.getElementById('result');
+            
+            // ========================================
+            // 11. SHOW RESULT WITH COLORS + FEATURES
+            // ========================================
+
+            // ========== PROGRESS BAR FUNCTION ==========
+            function getProgressBar(risk, color) {
+                return '<div class="progress-bar">' +
+                       '<div class="progress-fill" style="background:' + color + '; width:' + risk + '%;">' +
+                       risk + '%</div></div>';
+            }
+
+            // ========== COPY BUTTON ==========
+            const copyButton = '<div style="text-align: center; margin-top: 15px;">' +
+                               '<button onclick="copyResult()" class="copy-btn">📋 Copy Result</button>' +
+                               '</div>';
+            
+            if(risk >= 60) {
+                // 🚨 DANGER - SCAM DETECTED!
+                resultDiv.innerHTML = `
+                    <div class="result-danger">
+                        <h2 style="color:#ff0000; font-size:32px; margin:0;">🚨 SCAM DETECTED!</h2>
+                        <hr style="border-color:#ff000044;">
+                        <div class="risk-score-text">
+                            <strong>Risk Score:</strong>
+                            ${getProgressBar(risk, '#ff0000')}
+                        </div>
+                        <div style="background:rgba(255,0,0,0.1); padding:15px; border-radius:10px; margin:15px 0;">
+                            <strong>🔍 Reasons:</strong>
+                            <ul style="list-style:none; padding:0;">
+                                ${uniqueReasons.map(r => `<li style="padding:5px 0; color:#ff9999;">${r}</li>`).join('')}
+                            </ul>
+                        </div>
+                        <div style="background:rgba(255,0,0,0.2); padding:15px; border-radius:10px; border-left:5px solid #ff0000;">
+                            <p style="color:#ff6666; font-weight:bold; font-size:18px; margin:0;">
+                                ⚠️ DO NOT click any links or share OTP!
+                            </p>
+                            <p style="color:#ff9999; margin:10px 0 0 0;">
+                                📞 Report immediately: <strong style="color:#ff6666;">1930</strong> or 
+                                <a href="https://cybercrime.gov.in" target="_blank" style="color:#ff6666;">cybercrime.gov.in</a>
+                            </p>
+                        </div>
+                        <div style="margin-top:15px;">
+                            <span class="badge badge-red">🔴 CRITICAL</span>
+                            <span class="badge badge-red">🚨 SCAM</span>
+                            <span class="badge badge-red">⚠️ DANGER</span>
+                        </div>
+                        ${copyButton}
+                    </div>
+                `;
+                
+            } else if(risk >= 30) {
+                // ⚠️ WARNING - BE CAREFUL!
+                resultDiv.innerHTML = `
+                    <div class="result-warning">
+                        <h2 style="color:#ff8c00; font-size:32px; margin:0;">⚠️ Be Careful!</h2>
+                        <hr style="border-color:#ff8c0044;">
+                        <div class="risk-score-text">
+                            <strong>Risk Score:</strong>
+                            ${getProgressBar(risk, '#ff8c00')}
+                        </div>
+                        <div style="background:rgba(255,165,0,0.1); padding:15px; border-radius:10px; margin:15px 0;">
+                            <strong>🔍 Reasons:</strong>
+                            <ul style="list-style:none; padding:0;">
+                                ${uniqueReasons.map(r => `<li style="padding:5px 0; color:#ffaa44;">${r}</li>`).join('')}
+                            </ul>
+                        </div>
+                        <div style="background:rgba(255,165,0,0.15); padding:15px; border-radius:10px; border-left:5px solid #ff8c00;">
+                            <p style="color:#ffaa44; font-weight:bold; margin:0;">
+                                🔍 This message has suspicious elements. Be careful!
+                            </p>
+                        </div>
+                        <div style="margin-top:15px;">
+                            <span class="badge badge-orange">🟡 SUSPICIOUS</span>
+                            <span class="badge badge-orange">⚠️ WARNING</span>
+                        </div>
+                        ${copyButton}
+                    </div>
+                `;
+                
+            } else {
+                // ✅ SAFE
+                resultDiv.innerHTML = `
+                    <div class="result-safe">
+                        <h2 style="color:#00cc00; font-size:32px; margin:0;">✅ Looks Safe</h2>
+                        <hr style="border-color:#00cc0044;">
+                        <div class="risk-score-text">
+                            <strong>Risk Score:</strong>
+                            ${getProgressBar(risk, '#00cc00')}
+                        </div>
+                        <div style="background:rgba(0,255,0,0.05); padding:15px; border-radius:10px; margin:15px 0;">
+                            <p style="color:#88ff88; margin:0;">✅ No scam indicators found.</p>
+                        </div>
+                        <div style="margin-top:15px;">
+                            <span class="badge badge-green">✅ SAFE</span>
+                            <span class="badge badge-green">🟢 CLEAN</span>
+                        </div>
+                        ${copyButton}
+                    </div>
+                `;
+            }
+        }
+    </script>
+
+</body>
+</html>
